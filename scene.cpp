@@ -9,7 +9,8 @@ Scene::Scene( QWidget *parent ) : QLabel( parent ),
                                   videoCapture ( new cv::VideoCapture( 0 ) ),
                                   sceneTimer ( new QTimer( this ) ),
                                   markerDetector( new MarkerDetector ),
-                                  cameraParameters( new CameraParameters )
+                                  cameraParameters( new CameraParameters ),
+                                  ultimoMensajeSerial( 0 )
 {
 
     QString archivoYml = "../RA-CVBot/Files/CameraParameters.yml";
@@ -72,28 +73,28 @@ void Scene::slot_procesar()  {
 
         if ( perimetro < perimetroDeseado - rangoPerimetro )  {
             qDebug() << "Avanzar <1,1,150>";
-            server.enviarAlSerial( "<1,1,150>" );
-        }
+            if ( ultimoMensajeSerial != 1 )  {  server.enviarAlSerial( "<1,1,150>" );  ultimoMensajeSerial = 1;  }
+        }        
         else if ( perimetro >= perimetroDeseado + rangoPerimetro )  {
             qDebug() << "Retroceder <1,2,150>";
-            server.enviarAlSerial( "<1,2,150>" );
+            if ( ultimoMensajeSerial != 2 )  {  server.enviarAlSerial( "<1,2,150>" );  ultimoMensajeSerial = 2;  }
         }
         else  {
             qDebug() << "Detenerse <1,0,255>";
-            server.enviarAlSerial( "<1,0,255>" );
+            if ( ultimoMensajeSerial != 0 )  {  server.enviarAlSerial( "<1,0,255>" );  ultimoMensajeSerial = 0;  }
         }
 
         if ( x < xDeseado - rangoX )  {
             qDebug() << "Ir a la derecha <1,3,150>";
-            server.enviarAlSerial( "<1,3,150>" );
+            if ( ultimoMensajeSerial != 3 )  {  server.enviarAlSerial( "<1,3,150>" );  ultimoMensajeSerial = 3;  }
         }
         else if ( x >= xDeseado + rangoX )  {
             qDebug() << "Ir a la izquierda <1,4,150>";
-            server.enviarAlSerial( "<1,4,150>" );
+            if ( ultimoMensajeSerial != 4 )  {  server.enviarAlSerial( "<1,4,150>" );  ultimoMensajeSerial = 4;  }
         }
         else  {
             qDebug() << "Detenerse <1,0,255>";
-            server.enviarAlSerial( "<1,0,255>" );
+            if ( ultimoMensajeSerial != 0 )  {  server.enviarAlSerial( "<1,0,255>" );  ultimoMensajeSerial = 0;  }
         }
 
 #endif

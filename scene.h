@@ -43,6 +43,19 @@ private:
     CameraParameters *cameraParameters;
     cv::Mat frame;
 
+    // Mantiene el ultimo mensaje enviado al robot, esto para que no siga enviando el mismo mensaje si ya lo esta haciendo
+    int ultimoMensajeSerial;
+    // 0      "detener robot"
+    // 1      "adelante robot"
+    // 2      "atras robot"
+    // 3      "derecha robot"
+    // 4      "izquierda robot"
+    // 21     "abajo camara"
+    // 22     "arriba camara"
+    // 23     "izquierda camara"
+    // 24     "derecha camara"
+
+
 #ifdef RASPBERRY
     ServerTcp server;
 #endif
