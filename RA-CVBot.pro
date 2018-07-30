@@ -123,7 +123,6 @@ SOURCES += main.cpp\
            aruco/marker.cpp \
            aruco/markerdetector.cpp \
            aruco/subpixelcorner.cpp \
-    servertcp.cpp \
     servertcp.cpp
 
 HEADERS += \
@@ -139,7 +138,6 @@ HEADERS += \
            aruco/marker.h \
            aruco/markerdetector.h \
            aruco/subpixelcorner.h \
-    servertcp.h \
     servertcp.h
 
 FORMS +=

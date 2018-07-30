@@ -125,10 +125,6 @@ void ServerTcp::displayError(QAbstractSocket::SocketError socketError)
 }
 
 
-void ServerTcp::displayError(QAbstractSocket::SocketError socketError)  {
-
-}
-
 /**
  * @brief ServerTcp::enviarAlSerial
  * @param cadena puede ser:
