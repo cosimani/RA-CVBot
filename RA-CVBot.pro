@@ -145,4 +145,6 @@ HEADERS += \
 FORMS +=
 
 DISTFILES += \
-    README.md
+    README.md \
+    config/RA-CVBot.config
+

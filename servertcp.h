@@ -17,10 +17,12 @@ class ServerTcp : public QObject
 public:
     explicit ServerTcp(QObject *parent = 0);
 
-
-
     int getPuerto() const;
     void setPuerto(int value);
+
+    void enviarAlSerial( const char * cadena );
+
+
 
 private:
     QTcpServer * tcpServer;

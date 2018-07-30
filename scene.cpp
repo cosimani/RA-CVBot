@@ -52,9 +52,53 @@ void Scene::slot_procesar()  {
     markerDetector->detect( binaryMat, detectedMarkersVector, *cameraParameters, 0.08f );
     detectedMarkers = QVector< Marker >::fromStdVector( detectedMarkersVector );
 
-    // descripcion del marker
-    for( int i = 0; i < detectedMarkers.size(); i++ )
+    for( int i = 0; i < detectedMarkers.size(); i++ )  {
+        // Recuadra el marcador y dibuja su id
         detectedMarkers.at( i ).draw( frame, Scalar( 255, 0, 255 ), 1 );
+
+#ifdef RASPBERRY
+
+        int perimetro = detectedMarkers.at( i ).getPerimeter();
+        int x = detectedMarkers.at( i ).getCenter().x;
+
+        qDebug() << "Perimetro = " << perimetro << "     x = " << x;
+
+        // Estos rangos son para que no este constantemente corrigiendose la posicion.
+        int rangoPerimetro = 30;
+        int rangoX = rangoPerimetro * 2;
+
+        int perimetroDeseado = 400;
+        int xDeseado = this->width() / 2;
+
+        if ( perimetro < perimetroDeseado - rangoPerimetro )  {
+            qDebug() << "Avanzar <1,1,150>";
+            server.enviarAlSerial( "<1,1,150>" );
+        }
+        else if ( perimetro >= perimetroDeseado + rangoPerimetro )  {
+            qDebug() << "Retroceder <1,2,150>";
+            server.enviarAlSerial( "<1,2,150>" );
+        }
+        else  {
+            qDebug() << "Detenerse <1,0,255>";
+            server.enviarAlSerial( "<1,0,255>" );
+        }
+
+        if ( x < xDeseado - rangoX )  {
+            qDebug() << "Ir a la derecha <1,3,150>";
+            server.enviarAlSerial( "<1,3,150>" );
+        }
+        else if ( x >= xDeseado + rangoX )  {
+            qDebug() << "Ir a la izquierda <1,4,150>";
+            server.enviarAlSerial( "<1,4,150>" );
+        }
+        else  {
+            qDebug() << "Detenerse <1,0,255>";
+            server.enviarAlSerial( "<1,0,255>" );
+        }
+
+#endif
+
+    }
 
     QPixmap pixmap = QPixmap::fromImage( QImage( frame.data,
                                                  frame.cols,

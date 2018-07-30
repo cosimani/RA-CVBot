@@ -111,10 +111,6 @@ void ServerTcp::updateServerProgress()
         serialPuts(idPuerto,"<2,3,255>");
     }
 
-
-
-
-
     tcpServerConnection->close();
 
     delete tcpServerConnection;
@@ -127,6 +123,31 @@ void ServerTcp::displayError(QAbstractSocket::SocketError socketError)
 
     qDebug() << "Error en el server" << socketError;
 }
+
+
+void ServerTcp::displayError(QAbstractSocket::SocketError socketError)  {
+
+}
+
+/**
+ * @brief ServerTcp::enviarAlSerial
+ * @param cadena puede ser:
+ *      "<1,2,255>"      "atras robot"
+ *      "<1,1,255>"      "adelante robot"
+ *      "<1,3,255>"      "derecha robot"
+ *      "<1,4,255>"      "izquierda robot"
+ *      "<1,0,255>"      "detener robot"
+ *      "<2,2,255>"      "arriba camara"
+ *      "<2,1,255>"      "abajo camara"
+ *      "<2,4,255>"      "derecha camara"
+ *      "<2,3,255>"      "izquierda camara"
+ */
+void ServerTcp::enviarAlSerial( const char * cadena )
+{
+    serialPuts( idPuerto, cadena );
+}
+
+
 
 
 #endif // RASPBERRY
