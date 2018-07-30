@@ -10,10 +10,20 @@ TEMPLATE = app
 
 DEFINES += NO_DEBUG_ARUCO
 
-unix:DIR_OPENCV_LIBS = /usr/local/lib
+#DEFINES += RASPBERRY
 
-unix:INCLUDEPATH += "/usr/include/GL/"                             # OpenGL
-unix:LIBS += "/usr/lib/x86_64-linux-gnu/libglut.so"                # OpenGL
+# Si se define RASPBERRY entonces preparamos el servidor y las librerias del Serial con wiringPi
+exists( RASPBERRY )  {
+    message( "Esta definida la macro RASPBERRY" )
+    QT += network
+
+    # Las siguiente bibliotecas parece que ya vienen en la Raspberry
+    LIBS += -lwiringPi -lwiringPiDev -lpthread
+}
+
+
+
+unix:DIR_OPENCV_LIBS = /usr/local/lib
 
 unix:LIBS += $$DIR_OPENCV_LIBS/libopencv_core.so         # OpenCV
 unix:LIBS += $$DIR_OPENCV_LIBS/libopencv_highgui.so      # OpenCV
@@ -39,9 +49,6 @@ unix:LIBS += $$DIR_OPENCV_LIBS/libopencv_video.so
 unix:LIBS += $$DIR_OPENCV_LIBS/libopencv_videostab.so
 unix:LIBS += $$DIR_OPENCV_LIBS/libopencv_imgcodecs.so
 unix:LIBS += $$DIR_OPENCV_LIBS/libopencv_videoio.so
-
-unix:LIBS += "/usr/lib/x86_64-linux-gnu/lib3ds.so"                 # Modelos 3D
-
 
 
 win32:DIR_OPENCV_LIBS = C:/Qt/OpenCV-3.1.0
@@ -115,7 +122,9 @@ SOURCES += main.cpp\
            aruco/highlyreliablemarkers.cpp \
            aruco/marker.cpp \
            aruco/markerdetector.cpp \
-           aruco/subpixelcorner.cpp
+           aruco/subpixelcorner.cpp \
+    servertcp.cpp \
+    servertcp.cpp
 
 HEADERS += \
            scene.h \
@@ -130,7 +139,8 @@ HEADERS += \
            aruco/marker.h \
            aruco/markerdetector.h \
            aruco/subpixelcorner.h \
-    common.h
+    servertcp.h \
+    servertcp.h
 
 FORMS +=
 

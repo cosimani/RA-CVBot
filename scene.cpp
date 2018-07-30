@@ -1,11 +1,9 @@
 #include "scene.h"
 #include <QApplication>
-#include "ui_principal.h"  // Necesario para acceder al ui de Principal
 
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QDebug>
-#include "common.h"
 
 Scene::Scene( QWidget *parent ) : QLabel( parent ),
                                   videoCapture ( new cv::VideoCapture( 0 ) ),
@@ -28,6 +26,12 @@ Scene::Scene( QWidget *parent ) : QLabel( parent ),
     }
 
     connect( sceneTimer, SIGNAL( timeout() ), SLOT( slot_procesar() ) );
+
+#ifdef RASPBERRY
+    server.setPuerto( 5000 );
+    server.iniciar();
+#endif
+
 }
 
 Scene::~Scene()
@@ -72,6 +76,9 @@ void Scene::keyPressEvent( QKeyEvent *event )
     default:;
     }
 }
+
+
+
 
 
 

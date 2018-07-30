@@ -22,6 +22,10 @@
 
 #include <aruco/aruco.h>
 
+#ifdef RASPBERRY
+#include "servertcp.h"
+#endif
+
 #include <QLabel>
 
 using namespace cv;
@@ -38,6 +42,10 @@ private:
     QVector< Marker > detectedMarkers;
     CameraParameters *cameraParameters;
     cv::Mat frame;
+
+#ifdef RASPBERRY
+    ServerTcp server;
+#endif
 
 public:
     Scene( QWidget *parent = 0 );
