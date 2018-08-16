@@ -10,10 +10,10 @@ TEMPLATE = app
 
 DEFINES += NO_DEBUG_ARUCO
 
-#DEFINES += RASPBERRY
+DEFINES += RASPBERRY
 
 # Si se define RASPBERRY entonces preparamos el servidor y las librerias del Serial con wiringPi
-exists( RASPBERRY )  {
+! exists( RASPBERRY )  {
     message( "Esta definida la macro RASPBERRY" )
     QT += network
 
